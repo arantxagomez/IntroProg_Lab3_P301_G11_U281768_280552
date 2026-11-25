@@ -201,6 +201,13 @@ def create_board(rows, cols):
 
     return board #Retornem la matriu del tauler creada.
 
+# Busquem la primera casella buida d'una columna, començant per baix.
+def find_empty_row(board, col):
+    for row in range(len(board)-1, -1, -1): #Recorrem les files del tauler de dalt a baix.
+        if board[row][col] == 0: #Si la cel·la està buida, retornem la fila on es troba.
+            return row
+    return None #Si no hi ha cap fila buida a la columna, retornem None.
+
 def paint_piece_demo(col):
     """ Aquest codi només mostra com fer servir place_piece()
     place_piece() dibuixa una fitxa d'un color determinat en una posició donada (col i row)
