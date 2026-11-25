@@ -187,10 +187,19 @@ def read_int_in_range_w_default(prompt: str, low: int, high: int, default_val: i
 
 # ==============================================
 # Part 2: Lògica del joc (es crida des del bucle principal)
-
 # Defineix tantes funcions com consideris convenient
 # per mantenir-ho net, clar i ben estructurat
 
+
+#Creem el tauler del joc amb una matriu de zeros, on cada zero representa una cel·la buida. La funció rep com a paràmetres el nombre de files i columnes del tauler i retorna la matriu creada.
+def create_board(rows, cols):
+    board = [] #creem un llista buida que serà la matriu del tauler.
+
+    for i in range(rows):
+        row = [0]*cols #Per cada fila del tauler, creem una llista amb tants zeros com columnes té el tauler.
+        board.append(row) #L'afegim a la matriu del tauler.
+
+    return board #Retornem la matriu del tauler creada.
 
 def paint_piece_demo(col):
     """ Aquest codi només mostra com fer servir place_piece()
