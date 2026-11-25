@@ -218,6 +218,35 @@ def place_piece_in_board(board, col, player):
     else:
         return None #Si no hi ha cap fitxa buida a la columna, retornem None.
 
+def check_winner(board, player):
+    #Comprovem les files
+    for row in range(len(board)):
+        for col in range(len(board[0]) - 3):
+            if all(board[row][col + i] == player for i in range(4)): #Si hi ha 4 fitxes del mateix jugadir en una fila, retornem True.
+                return True
+
+    #Comprovem les columnes
+    for col in range(len(board[0])):
+        for row in range(len(board) - 3):
+            if all(board[row + i][col] == player for i in range(4)): #Si hi ha 4 fitxes del mateix jugador en una columna, retona True.
+                return True
+
+    #Comprovemm les diagonals de dalt a baix.
+    for row in range(len(board) - 3):
+        for col in range(len(board[0]) - 3):
+            if all(board[row + i][col + i] == player for i in range(4)): #Si hi ha 4 fitxes del mateix jugador en un diagonal de dalt a baix, retornem True.
+                return True
+
+    #Comprovem les diagonals de baix a dalt.
+    for row in range(3, len(board)):
+        for col in range(len(board[0]) - 3):
+            if all(board[row - i][col + i] == player for i in range(4)): #Si hi ha 4 fitxes del mateix jugador en una diagonal de baix a dalt, retornem True.
+                return True
+            
+    return False #Si no hi ha cap combinació de 4 fitxes en línea, retornem False.
+
+
+
 def paint_piece_demo(col):
     """ Aquest codi només mostra com fer servir place_piece()
     place_piece() dibuixa una fitxa d'un color determinat en una posició donada (col i row)
