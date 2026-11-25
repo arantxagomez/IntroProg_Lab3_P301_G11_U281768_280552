@@ -193,7 +193,7 @@ def read_int_in_range_w_default(prompt: str, low: int, high: int, default_val: i
 
 #Creem el tauler del joc amb una matriu de zeros, on cada zero representa una cel·la buida. La funció rep com a paràmetres el nombre de files i columnes del tauler i retorna la matriu creada.
 def create_board(rows, cols):
-    board = [] #creem un llista buida que serà la matriu del tauler.
+    board = [] #creem una llista buida que serà la matriu del tauler.
 
     for i in range(rows):
         row = [0]*cols #Per cada fila del tauler, creem una llista amb tants zeros com columnes té el tauler.
@@ -203,10 +203,20 @@ def create_board(rows, cols):
 
 # Busquem la primera casella buida d'una columna, començant per baix.
 def find_empty_row(board, col):
-    for row in range(len(board)-1, -1, -1): #Recorrem les files del tauler de dalt a baix.
+    for row in range(len(board)-1, -1, -1): #Recorrem les files del tauler de baix a dalt.
         if board[row][col] == 0: #Si la cel·la està buida, retornem la fila on es troba.
             return row
     return None #Si no hi ha cap fila buida a la columna, retornem None.
+
+# Col·loquem una fitxa a la columna escollida i retornem la fila on s'ha situat.
+def place_piece_in_board(board, col, player):
+    row = find_empty_row(board, col) #Busquem la primera fila buida de la columna.
+
+    if row is not None:
+        board[row][col] = player #Si hi ha una fila buida, assignem el valor del jugador a la cel·la corresponent del tauler.
+        return row #Retornem la fila on s'ha col·locat la fitxa.
+    else:
+        return None #Si no hi ha cap fitxa buida a la columna, retornem None.
 
 def paint_piece_demo(col):
     """ Aquest codi només mostra com fer servir place_piece()
