@@ -98,58 +98,79 @@ def get_config():
         
     Ha de retornar allò que hagi canviat (NO utilitzeu variables globals)
 
-    Esteu MOLT animats a reutilitzar funcions del laboratori 2, sempre que sigui possible, com ara:
-    * ask_yes_no()
-    * read_int_in_range()
-    * read_int_in_range_w_default()
-    * change_colors()
-    * read_color()
     """
   # PENDENT: afegeix tot el codi necessari
     return None
 
+
 # FUNCIONS IMPORTADES DEL LAB 2
-def ask_yes_no(prompt: str) -> bool:        # Es sol·lita a l'usuari que respongui a una pregunta amb un sí o no, convertint-la en un boleà
+def ask_yes_no(prompt: str) -> bool:
+    """Es sol·licita a l'usuari que respongui a una pregunta amb un sí o no, convertint-la en un booleà
+
+    Paràmetres:
+    prompt (str): La pregunta que es vol fer a l'usuari
+
+    Retorna:
+    bool: True si l'usuari respon afirmativament (sí), False si l'usuari respon negativament (no)
+    """
     while True:
-        answer = input(prompt + " (y/n): ")  # S'imprimeix la pregunta amb la indicació de com respondre (y/n)
-        # Transformem la resposta a minúscules i eliminem els espais en blanc al principi i al final per tal de poder processar-la
-        answer = answer.strip().lower()  # Amb strip() eliminem els espais en blanc al principi i al final de la resposta, i amb lower() convertim els caràcters de la resposta en minúscules.
+        # Ignorem els espais i les majúscules perquè respostes com " Yes " també siguin vàlides
+        answer = input(prompt + " (y/n): ").strip().lower()
 
-        # Processem la resposta de l'usuari i comprovem si és vàlida
-        if answer == "y" or answer == "yes":  # Comprovem si la resposta és sí (y o yes)
-            return True  # Es retorna True si la resposta és afirmativa, es surt del bucle
-        elif answer == "n" or answer == "no": # Comprovem si la resposta és no (n o no)
-            return False  # Es retorna False si la resposta és negativa, es surt del bucle
-        else:  # Si la resposta no és ni sí ni no tal i com s'especifica en les instruccions, es torna a demanar
-            print("Introdueix una resposta vàlida (y/n).")  # Es mostra un missatge d'error indicant que la resposta no és vàlida i es torna a demanar la resposta
+        if answer == "y" or answer == "yes":
+            return True
+        elif answer == "n" or answer == "no":
+            return False
+        else:
+            print("Introdueix una resposta vàlida (y/n).")
 
-def read_int_in_range(prompt: str, low: int, high: int) -> int:     # Es sol·licita a l'usuari que introdueixi un valor enter dins d'un rang determinat
+def read_int_in_range(prompt: str, low: int, high: int) -> int:
+    """Es sol·licita a l'usuari que introdueixi un valor enter dins d'un rang determinat
+
+    Paràmetres:
+    prompt (str): La pregunta que es vol fer a l'usuari
+    low (int): El valor mínim del rang
+    high (int): El valor màxim del rang
+
+    Retorna:
+    int: El valor enter introduït per l'usuari dins del rang especificat
+    """
     while True:
-        try: 
-            #   Sol·licitud d'entrada a l'usuari amb indicació del rang
-            user_input = input(f"{prompt} - Introdueix un valor entre {low} i {high}: ").strip()  # S'imprimeix la pregunta amb la indicació de com respondre (valor entre low i high) i es llegeix l'entrada de l'usuari. Amb strip() eliminem els espais en blanc al principi i al final de la resposta per evitar que sigui " 100 " i es consideri invàlida.
+        try:
+            user_input = input(f"{prompt} - Introdueix un valor entre {low} i {high}: ").strip()
 
-            #   Gestió de la resposta de l'usuari i comprovació de la validesa de l'entrada
-            if low <= int(user_input) <= high:  # Comprovem si l'entrada de l'usuari es situa entre els valors del rang
-                return int(user_input)  # Si el valor introduit per l'usuari es troba dins del rang, es retorna aquest valor i es surt del bucle
-            elif int(user_input) < low or int(user_input) > high:  # Comprovem si l'entrada de l'usuari és fora del rang especificat
-                print(f"Introdueix un valor entre {low} i {high}.")  # Si el valor introduit per l'usuari es troba fora del rang, es mostra un missatge d'error indicant que l'entrada no és vàlida i es torna a demanar la resposta
+            if low <= int(user_input) <= high:
+                return int(user_input)
+            elif int(user_input) < low or int(user_input) > high:
+                print(f"Introdueix un valor entre {low} i {high}.")
 
-        #   Gestió de l'error
-        except ValueError:  # Si l'entrada de l'usuari no és un enter (lletres, decimals o cap valor), es captura l'excepció ValueError
-            print("Introdueix un valor vàlid.")  # Es mostra un missatge d'error indicant que l'entrada no és vàlida i es torna a demanar la resposta
+        # int() falla si l'entrada no és un enter: lletres, decimals o entrada buida
+        except ValueError:
+            print("Introdueix un valor vàlid.")
 
-def read_color(prompt: str) -> tuple[int, int, int]:       # Es sol·licita a l'uauri que introdueixi el color desitjat a travñes de la combinació RGB
-    #   Sol·licitem els 3 colors RGB a l'usuari el qual haurà d'introduïr la intensitat de cadascun, sent 255 el màxim i 0 el mínim
-    r = read_int_in_range(f"Color {prompt}: color vermell (R)", 0, 255)    # Sol·licitud del color vermell
-    g = read_int_in_range(f"Color {prompt}: color verd (G)", 0, 255)   # Sol·licitud del color verd
-    b = read_int_in_range(f"Color {prompt}: color blau (B)", 0, 255)   # Sol·licitud del color blau
+def read_color(prompt: str) -> tuple[int, int, int]:
+    """Es sol·licita a l'usuari que introdueixi el color desitjat a través de la combinació RGB
 
-    #   Es retornen els 3 components RGB que formen el color desitjat per l'usuari en forma de tupla
+    Paràmetres:
+    prompt (str): A què correspon el color (p. ex. "jugador 1"); s'afegeix al text de cada pregunta
+
+    Retorna:
+    tuple[int, int, int]: Una tupla amb els 3 components RGB (R, G, B) que formen el color desitjat per l'usuari
+    """
+    r = read_int_in_range(f"Color {prompt}: color vermell (R)", 0, 255)
+    g = read_int_in_range(f"Color {prompt}: color verd (G)", 0, 255)
+    b = read_int_in_range(f"Color {prompt}: color blau (B)", 0, 255)
     return r, g, b
 
 #   FUNCIONS IMPORTADES DEL LAB 2 PENDENTS A MODIFICAR I ADAPTAR AL LAB 3
-def change_colors() -> tuple[tuple[int, int, int], tuple[int, int, int]]:   # Permet a l'usuari canviar els colors del fons i dels elements del joc
+def change_colors() -> tuple[tuple[int, int, int], tuple[int, int, int]]:
+    """Permet a l'usuari canviar els colors del fons i dels elements del joc
+    Paràmetres:
+    cap
+
+    Retorna:
+    tuple[tuple[int, int, int], tuple[int, int, int]]: Una tupla amb els colors RGB (R, G, B) del fons i del primer pla
+    """
     #   1. Preguntem a l'usuari si vol canviar els colors
     # La pregunta es formula i es respon a través de la funció ask_yes_no
     if ask_yes_no("Vols canviar els colors del joc?") == True: # En cas de que l'usuari hagi respost que sí que vol canviar el color, la funció retorna True i es procedeix al canvi de color.
@@ -162,25 +183,34 @@ def change_colors() -> tuple[tuple[int, int, int], tuple[int, int, int]]:   # Pe
         # Si l'usuari respon que no, es retornen els colors per defecte
         return BLACK, WHITE
 
-def read_int_in_range_w_default(prompt: str, low: int, high: int, default_val: int) -> int:     # Es sol·licita a l'usuari que introdueixi un valor enter dins d'un rang determinat, amb un valor per defecte
+def read_int_in_range_w_default(prompt: str, low: int, high: int, default_val: int) -> int:
+    """Es sol·licita a l'usuari que introdueixi un valor enter dins d'un rang determinat, amb un valor per defecte
+
+    Paràmetres:
+    prompt (str): La pregunta que es vol fer a l'usuari
+    low (int): El valor mínim del rang
+    high (int): El valor màxim del rang
+    default_val (int): El valor per defecte que es retorna si l'usuari
+    no introdueix cap valor i prem ENTER
+
+    Retorna:
+    int: El valor enter introduït per l'usuari dins del rang especificat, o el valor per defecte si l'usuari prem ENTER sense introduir cap valor
+    """
     while True:
-        try: 
-            #   Sol·licitud d'entrada a l'usuari amb indicació del rang i del valor per defecte
-            user_input = input(f"{prompt} - Introdueix un valor entre {low} i {high}, en cas de voler el valor per defecte ({default_val}), prem ENTER: ").strip()  # S'imprimeix la pregunta amb la indicació de com respondre (valor entre low i high, o ENTER per defecte) i es llegeix l'entrada de l'usuari. Amb strip() eliminem els espais en blanc al principi i al final de la resposta per evitar que sigui " 100 " i es consideri invàlida.
+        try:
+            user_input = input(f"{prompt} - Introdueix un valor entre {low} i {high}, en cas de voler el valor per defecte ({default_val}), prem ENTER: ").strip()
 
-            #   Gestió de la resposta de l'usuari i comprovació de la validesa de l'entrada
-            if user_input == "":  # Comprovem si l'usuari ha premut ENTER sense introduir cap valor
-                return default_val  # Si l'usuari ha premut ENTER sense introduir cap valor, es retorna el valor per defecte i es surt del bucle
-            elif low <= int(user_input) <= high:  # Comprovem si l'entrada de l'usuari es situa entre els valors del rang
-                return int(user_input)  # Si el valor introduit per l'usuari es troba dins del rang, es retorna aquest valor i es surt del bucle
-            elif int(user_input) < low or int(user_input) > high:  # Comprovem si l'entrada de l'usuari és fora del rang especificat
-                print(f"Introdueix un valor entre {low} i {high}.")  # Si el valor introduit per l'usuari es troba fora del rang, es mostra un missatge d'error indicant que l'entrada no és vàlida i es torna a demanar la resposta
+            # L'entrada buida s'ha de comprovar abans de fer int(), perquè int("") dona ValueError
+            if user_input == "":
+                return default_val
+            elif low <= int(user_input) <= high:
+                return int(user_input)
+            elif int(user_input) < low or int(user_input) > high:
+                print(f"Introdueix un valor entre {low} i {high}.")
 
-        #   Gestió de l'error
-        except ValueError:  # Si l'entrada de l'usuari no és un enter, es captura l'excepció ValueError
-            print("Introdueix un valor vàlid.")  # Es mostra un missatge d'error indicant que l'entrada no és vàlida i es torna a demanar la resposta
-
-  
+        # int() falla si l'entrada no és un enter: lletres o decimals
+        except ValueError:
+            print("Introdueix un valor vàlid.")
 
 # defineix aquí totes les funcions addicionals que calguin per a la configuració
 # mantén-ho net, clar i ben estructurat
